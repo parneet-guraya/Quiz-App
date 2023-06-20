@@ -1,103 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.QuestionFragment"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/sides_margin"
-    >
+    <data>
 
+        <variable
+            name="viewModel"
+            type="com.example.quizapp.model.QuizViewModel" />
+        <variable
+            name="fragment"
+            type="com.example.quizapp.fragments.QuestionFragment" />
+    </data>
 
-    <TextView
-        android:id="@+id/question_count"
-        style="@style/TextAppearance.Material3.TitleLarge"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/question_count"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/question_count" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragments.QuestionFragment">
 
-    <TextView
-        android:id="@+id/question_text_view"
-        style="@style/TextAppearance.Material3.HeadlineSmall"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/sides_margin"
-        android:text="@string/sample_question"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/question_count"
-        tools:text="What are you doing? Choose from one of the options" />
-
-    <View
-        android:id="@+id/question_divider"
-        style="@style/Widget.QuizApp.Divider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/question_text_view" />
-
-    <RadioGroup
-        android:id="@+id/option_radio_group"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/question_divider">
-
-        <RadioButton
-            android:id="@+id/option_1"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:text="Option 1" />
+            android:layout_height="wrap_content"
+            android:padding="@dimen/sides_margin">
 
-        <RadioButton
-            android:id="@+id/option_2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:text="Option 2" />
 
-        <RadioButton
-            android:id="@+id/option_3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:text="Option 3" />
+            <TextView
+                android:id="@+id/question_count"
+                style="@style/TextAppearance.Material3.TitleLarge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{String.format(@string/question_count,viewModel.questionCounter,viewModel.totalQuestions)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/question_count" />
 
-        <RadioButton
-            android:id="@+id/option_4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:text="Option 4" />
+            <TextView
+                android:id="@+id/answer"
+                style="@style/TextAppearance.Material3.TitleLarge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.isCorrect}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Correct" />
 
-    </RadioGroup>
+            <TextView
+                android:id="@+id/question_text_view"
+                style="@style/TextAppearance.Material3.HeadlineSmall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sides_margin"
+                android:text="@{viewModel.question.question}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_count"
+                tools:text="What are you doing? Choose from one of the options" />
 
-    <View
-        android:id="@+id/option_button_divider"
-        style="@style/Widget.QuizApp.Divider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/option_radio_group"
-        />
+            <View
+                android:id="@+id/question_divider"
+                style="@style/Widget.QuizApp.Divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_text_view" />
 
-    <Button
-        android:id="@+id/next_question"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/next_question_button_text"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/option_button_divider"
-        />
+            <RadioGroup
+                android:id="@+id/option_radio_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/question_divider">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <RadioButton
+                    android:id="@+id/option_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@{viewModel.question.options.option1}"
+                    android:onClick="@{() -> viewModel.submitAnswer(viewModel.question.options.option1)}"
+                    tools:text="Option 1" />
 
-</ScrollView>
+                <RadioButton
+                    android:id="@+id/option_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@{viewModel.question.options.option2}"
+                    android:onClick="@{() -> viewModel.submitAnswer(viewModel.question.options.option2)}"
+                    tools:text="Option 2" />
+
+                <RadioButton
+                    android:id="@+id/option_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@{viewModel.question.options.option3}"
+                    android:onClick="@{() -> viewModel.submitAnswer(viewModel.question.options.option3)}"
+                    tools:text="Option 3" />
+
+                <RadioButton
+                    android:id="@+id/option_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@{viewModel.question.options.option4}"
+                    android:onClick="@{() -> viewModel.submitAnswer(viewModel.question.options.option4)}"
+                    tools:text="Option 4" />
+
+            </RadioGroup>
+
+            <View
+                android:id="@+id/option_button_divider"
+                style="@style/Widget.QuizApp.Divider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/option_radio_group" />
+
+            <Button
+                android:id="@+id/next_question"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:onClick="@{() -> fragment.nextQuestion()}"
+                android:text="@string/next_question_button_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/option_button_divider" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

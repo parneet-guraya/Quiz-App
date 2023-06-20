@@ -10,4 +10,5 @@
     <string name="next_question_button_text">Next Question</string>
     <string name="restart_quiz_button_text">Restart Quiz</string>
     <string name="start_quiz_button_text">Start Quiz</string>
+    <string name="no_options_selected_message">Please Select an option!!</string>
 </resources>
