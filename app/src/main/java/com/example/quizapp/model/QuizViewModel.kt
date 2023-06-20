@@ -8,8 +8,11 @@ import com.example.quizapp.data.DataSource
 const val LOG_TAG = "MYCUSTOMLOGTAG"
 
 class QuizViewModel : ViewModel() {
-    private val questions_list = DataSource.questionsList
-    val totalQuestions = questions_list.size
+    private val questionList = DataSource.questionsList
+    private val resultList = mutableListOf<Result>()
+
+    val totalQuestions = questionList.size
+    val totalMarks = EACH_CORRECT_MARK * totalQuestions
 
     private val _questionCounter = MutableLiveData<Int>()
     val questionCounter: LiveData<Int> = _questionCounter
@@ -31,23 +34,27 @@ class QuizViewModel : ViewModel() {
         } else {
             _isCorrect.value = INCORRECT
         }
+        storeAnswer(_isCorrect.value!!)
     }
-
+    private fun storeAnswer(isCorrect: String){
+        resultList.add(Result(isCorrect))
+    }
     fun nextQuestion() {
         if (questionCounter.value!! < totalQuestions) {
-            _question.value = questions_list[questionCounter.value!!]
+            _question.value = questionList[questionCounter.value!!]
             _questionCounter.value = _questionCounter.value!!.inc()
-
         }
     }
 
+
     fun resetQuiz() {
         _questionCounter.value = 1
-        _question.value = questions_list[_questionCounter.value!!.minus(1)]
+        _question.value = questionList[_questionCounter.value!!.minus(1)]
     }
 
     companion object {
         private const val CORRECT = "CORRECT"
         private const val INCORRECT = "INCORRECT"
+        const val EACH_CORRECT_MARK = 10
     }
 }
