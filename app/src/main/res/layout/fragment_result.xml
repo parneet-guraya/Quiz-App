@@ -7,6 +7,10 @@
         <variable
             name="fragment"
             type="com.example.quizapp.fragments.ResultFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.example.quizapp.model.QuizViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +24,7 @@
             style="@style/TextAppearance.Material3.HeadlineSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/question_score"
+            android:text="@{String.format(@string/question_score,viewModel.correctAnswers,viewModel.totalQuestions)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +43,7 @@
             style="@style/TextAppearance.Material3.HeadlineSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/score"
+            android:text="@{String.format(@string/score,viewModel.marksScored,viewModel.totalMarks)}"
             android:textStyle="bold"
             android:layout_marginTop="@dimen/sides_margin"
             app:layout_constraintEnd_toEndOf="parent"

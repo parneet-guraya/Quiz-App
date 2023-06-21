@@ -6,18 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
 import com.example.quizapp.databinding.FragmentResultBinding
+import com.example.quizapp.model.QuizViewModel
 
 class ResultFragment : Fragment() {
+
+    private val sharedViewModel: QuizViewModel by activityViewModels()
 
     private var _binding: FragmentResultBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_result,container,false)
         return binding.root
@@ -27,6 +31,7 @@ class ResultFragment : Fragment() {
         binding.apply {
             lifecycleOwner = this@ResultFragment
             fragment = this@ResultFragment
+            viewModel = sharedViewModel
         }
     }
     override fun onDestroyView() {
@@ -36,6 +41,7 @@ class ResultFragment : Fragment() {
 
     fun restartQuiz(){
         //TODO: Add restart functionality!
+        sharedViewModel.resetQuiz()
         findNavController().navigate(R.id.action_resultFragment_to_startFragment)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.quizapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
 import com.example.quizapp.databinding.FragmentQuestionBinding
+import com.example.quizapp.model.LOG_TAG
 import com.example.quizapp.model.QuizViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -42,6 +44,7 @@ class QuestionFragment : Fragment() {
                 buttonState = SUBMIT_BUTTON_STATE
             }
         }
+        Log.d(LOG_TAG,"${sharedViewModel.isCorrect.value}")
     }
 
     override fun onDestroyView() {
@@ -54,6 +57,7 @@ class QuestionFragment : Fragment() {
             showNoOptionSelectedSnackBar()
         } else {
             if (buttonState == SUBMIT_BUTTON_STATE) {
+                sharedViewModel.calculateResult()
                 goToResultScreen()
             } else {
                 nextQuestion()

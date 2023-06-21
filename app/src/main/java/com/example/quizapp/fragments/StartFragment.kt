@@ -1,6 +1,7 @@
 package com.example.quizapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
 import com.example.quizapp.databinding.FragmentStartBinding
+import com.example.quizapp.model.LOG_TAG
 
 class StartFragment : Fragment() {
 
@@ -29,6 +31,7 @@ class StartFragment : Fragment() {
             lifecycleOwner = this@StartFragment
             fragment = this@StartFragment
         }
+        Log.d(LOG_TAG,"State -> $savedInstanceState")
     }
     override fun onDestroyView() {
         super.onDestroyView()

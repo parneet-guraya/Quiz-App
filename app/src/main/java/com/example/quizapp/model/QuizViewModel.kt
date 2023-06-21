@@ -11,9 +11,6 @@ class QuizViewModel : ViewModel() {
     private val questionList = DataSource.questionsList
     private val resultList = mutableListOf<Result>()
 
-    val totalQuestions = questionList.size
-    val totalMarks = EACH_CORRECT_MARK * totalQuestions
-
     private val _questionCounter = MutableLiveData<Int>()
     val questionCounter: LiveData<Int> = _questionCounter
 
@@ -21,8 +18,18 @@ class QuizViewModel : ViewModel() {
     private val _question = MutableLiveData<Question>()
     val question: LiveData<Question> = _question
 
-    private val _isCorrect = MutableLiveData<String>()
-    val isCorrect: LiveData<String> = _isCorrect
+    private val _isCorrect = MutableLiveData<String?>()
+    val isCorrect: LiveData<String?> = _isCorrect
+
+    val totalQuestions = questionList.size
+    val totalMarks = EACH_CORRECT_MARK * totalQuestions
+
+    private var _correctAnswers = MutableLiveData<Int>(0)
+    val correctAnswers:LiveData<Int> = _correctAnswers
+
+    private val _marksScored = MutableLiveData<Int>()
+    val marksScored:LiveData<Int> = _marksScored
+
 
     init {
         resetQuiz()
@@ -39,6 +46,17 @@ class QuizViewModel : ViewModel() {
     private fun storeAnswer(isCorrect: String){
         resultList.add(Result(isCorrect))
     }
+
+    // TODO: why it give 0 when using simple instance properties instead of livedata
+    fun calculateResult(){
+        for (result:Result in resultList){
+            if(result.isCorrect == CORRECT){
+               _correctAnswers.value = correctAnswers.value!!.inc()
+            }
+        }
+        _marksScored.value = correctAnswers.value!!.times(EACH_CORRECT_MARK)
+    }
+
     fun nextQuestion() {
         if (questionCounter.value!! < totalQuestions) {
             _question.value = questionList[questionCounter.value!!]
@@ -50,6 +68,10 @@ class QuizViewModel : ViewModel() {
     fun resetQuiz() {
         _questionCounter.value = 1
         _question.value = questionList[_questionCounter.value!!.minus(1)]
+        _isCorrect.value = null
+        _correctAnswers.value = 0
+        _marksScored.value = 0
+        resultList.clear()
     }
 
     companion object {
