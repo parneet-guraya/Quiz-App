@@ -39,7 +39,7 @@ android {
 
 dependencies {
     def lifecycle_version = "2.6.1"
-    def nav_version = "2.5.3"
+    def nav_version = "2.6.0"
 
 
     implementation 'androidx.core:core-ktx:1.10.1'
