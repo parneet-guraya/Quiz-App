@@ -50,7 +50,6 @@ class QuestionFragment : Fragment() {
                 buttonState = SUBMIT_BUTTON_STATE
             }
         }
-        Log.d(LOG_TAG,"${sharedViewModel.isCorrect.value}")
     }
 
     override fun onDestroyView() {
@@ -85,9 +84,7 @@ class QuestionFragment : Fragment() {
     }
 
     private fun nextQuestion() {
-
         binding.optionRadioGroup.clearCheck()
-        binding.answer.text = null
         sharedViewModel.nextQuestion()
     }
 

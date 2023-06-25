@@ -36,16 +36,6 @@
                 tools:text="@string/question_count" />
 
             <TextView
-                android:id="@+id/answer"
-                style="@style/TextAppearance.Material3.TitleLarge"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.isCorrect}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Correct" />
-
-            <TextView
                 android:id="@+id/question_text_view"
                 style="@style/TextAppearance.Material3.HeadlineSmall"
                 android:layout_width="0dp"

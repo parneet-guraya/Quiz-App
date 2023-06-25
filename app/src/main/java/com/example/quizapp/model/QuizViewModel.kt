@@ -20,11 +20,8 @@ class QuizViewModel : ViewModel() {
     private val _question = MutableLiveData<Question?>()
     val question: LiveData<Question?> = _question
 
-    private val _isCorrect = MutableLiveData<String?>()
-    val isCorrect: LiveData<String?> = _isCorrect
-
-    var totalQuestions:Int = 0
-    var totalMarks:Int = 0
+    var totalQuestions: Int = 0
+    var totalMarks: Int = 0
 
     private var _correctAnswers = MutableLiveData<Int>()
     val correctAnswers: LiveData<Int> = _correctAnswers
@@ -38,14 +35,15 @@ class QuizViewModel : ViewModel() {
     }
 
     fun submitAnswer(option: String) {
-        if (option == _question.value!!.options.correctOption) {
-            _isCorrect.value = CORRECT
+        val isCorrect = if (option == _question.value!!.options.correctOption) {
+            CORRECT
         } else {
-            _isCorrect.value = INCORRECT
+            INCORRECT
         }
-        storeAnswer(_isCorrect.value!!)
+        storeAnswer(isCorrect)
     }
-    private fun storeAnswer(isCorrect: String){
+
+    private fun storeAnswer(isCorrect: String) {
         resultList.add(Result(isCorrect))
     }
 
@@ -70,7 +68,6 @@ class QuizViewModel : ViewModel() {
     fun resetQuiz() {
         _questionCounter.value = 0
         _question.value = null
-        _isCorrect.value = null
         _correctAnswers.value = 0
         _marksScored.value = 0
         totalQuestions = 0
@@ -78,28 +75,28 @@ class QuizViewModel : ViewModel() {
         resultList.clear()
     }
 
-    fun setQuizCategory(category: QuizCategory,shuffled:Boolean) {
+    fun setQuizCategory(category: QuizCategory, shuffled: Boolean) {
         val list = when (category) {
             QuizCategory.MATHEMATICS -> DataSource.mathematicsQuestions
             QuizCategory.SCIENCE -> DataSource.scienceQuestions
             QuizCategory.GENERAL_KNOWLEDGE -> DataSource.gkQuestions
             QuizCategory.ANDROID -> DataSource.androidQuestions
         }
-        questionList = if(shuffled){
+        questionList = if (shuffled) {
             list.shuffled()
-        }else{
+        } else {
             list
         }
         setupListState()
     }
 
     private fun setupListState() {
-        Log.d(LOG_TAG,"$totalQuestions")
+        Log.d(LOG_TAG, "$totalQuestions")
         totalQuestions = questionList.size
         totalMarks = EACH_CORRECT_MARK * totalQuestions
         _questionCounter.value = 1
         _question.value = questionList[_questionCounter.value!!.minus(1)]
-        Log.d(LOG_TAG,"$totalQuestions")
+        Log.d(LOG_TAG, "$totalQuestions")
     }
 
     companion object {
