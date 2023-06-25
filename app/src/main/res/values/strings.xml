@@ -12,4 +12,10 @@
     <string name="start_quiz_button_text">Start Quiz</string>
     <string name="no_options_selected_message">Please Select an option!!</string>
     <string name="submit_button_text">Submit Button</string>
+
+    <string name="mathematics_category_text">Mathematics</string>
+    <string name="science_category_text">Science</string>
+    <string name="gk_category_text">General Knowledge</string>
+    <string name="android_category_text">Android</string>
+
 </resources>
