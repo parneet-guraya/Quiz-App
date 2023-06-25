@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <!--        Why we needed to have import the enum class here?-->
+        <import type="com.example.quizapp.enums.QuizCategory" />
+
         <variable
             name="fragment"
             type="com.example.quizapp.fragments.StartFragment" />
@@ -16,15 +19,49 @@
 
 
         <Button
-            android:id="@+id/start_button"
-            android:layout_width="wrap_content"
+            android:id="@+id/quiz_mathematics"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/start_quiz_button_text"
-            android:onClick="@{() -> fragment.goToNextScreen()}"
+            android:onClick="@{() -> fragment.goToNextScreen(QuizCategory.MATHEMATICS)}"
+            android:text="@string/mathematics_category_text"
+            app:layout_constraintBottom_toTopOf="@+id/quiz_science"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <Button
+            android:id="@+id/quiz_science"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> fragment.goToNextScreen(QuizCategory.SCIENCE)}"
+            android:text="@string/science_category_text"
+            app:layout_constraintBottom_toTopOf="@+id/quiz_gk"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quiz_mathematics" />
+
+        <Button
+            android:id="@+id/quiz_gk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> fragment.goToNextScreen(QuizCategory.GENERAL_KNOWLEDGE)}"
+            android:text="@string/gk_category_text"
+            app:layout_constraintBottom_toTopOf="@+id/quiz_android"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quiz_science" />
+
+        <Button
+            android:id="@+id/quiz_android"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> fragment.goToNextScreen(QuizCategory.ANDROID)}"
+            android:text="@string/android_category_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/quiz_gk" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
