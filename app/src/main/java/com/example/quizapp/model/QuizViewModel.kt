@@ -1,34 +1,36 @@
 package com.example.quizapp.model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.quizapp.data.DataSource
+import com.example.quizapp.enums.QuizCategory
 
 const val LOG_TAG = "MYCUSTOMLOGTAG"
 
 class QuizViewModel : ViewModel() {
-    private val questionList = DataSource.questionsList
+    private var questionList = listOf<Question>()
     private val resultList = mutableListOf<Result>()
 
     private val _questionCounter = MutableLiveData<Int>()
     val questionCounter: LiveData<Int> = _questionCounter
 
     // Shared ViewModel
-    private val _question = MutableLiveData<Question>()
-    val question: LiveData<Question> = _question
+    private val _question = MutableLiveData<Question?>()
+    val question: LiveData<Question?> = _question
 
     private val _isCorrect = MutableLiveData<String?>()
     val isCorrect: LiveData<String?> = _isCorrect
 
-    val totalQuestions = questionList.size
-    val totalMarks = EACH_CORRECT_MARK * totalQuestions
+    var totalQuestions:Int = 0
+    var totalMarks:Int = 0
 
-    private var _correctAnswers = MutableLiveData<Int>(0)
-    val correctAnswers:LiveData<Int> = _correctAnswers
+    private var _correctAnswers = MutableLiveData<Int>()
+    val correctAnswers: LiveData<Int> = _correctAnswers
 
     private val _marksScored = MutableLiveData<Int>()
-    val marksScored:LiveData<Int> = _marksScored
+    val marksScored: LiveData<Int> = _marksScored
 
 
     init {
@@ -48,10 +50,10 @@ class QuizViewModel : ViewModel() {
     }
 
     // TODO: why it give 0 when using simple instance properties instead of livedata
-    fun calculateResult(){
-        for (result:Result in resultList){
-            if(result.isCorrect == CORRECT){
-               _correctAnswers.value = correctAnswers.value!!.inc()
+    fun calculateResult() {
+        for (result: Result in resultList) {
+            if (result.isCorrect == CORRECT) {
+                _correctAnswers.value = correctAnswers.value!!.inc()
             }
         }
         _marksScored.value = correctAnswers.value!!.times(EACH_CORRECT_MARK)
@@ -66,12 +68,38 @@ class QuizViewModel : ViewModel() {
 
 
     fun resetQuiz() {
-        _questionCounter.value = 1
-        _question.value = questionList[_questionCounter.value!!.minus(1)]
+        _questionCounter.value = 0
+        _question.value = null
         _isCorrect.value = null
         _correctAnswers.value = 0
         _marksScored.value = 0
+        totalQuestions = 0
+        totalMarks = 0
         resultList.clear()
+    }
+
+    fun setQuizCategory(category: QuizCategory,shuffled:Boolean) {
+        val list = when (category) {
+            QuizCategory.MATHEMATICS -> DataSource.mathematicsQuestions
+            QuizCategory.SCIENCE -> DataSource.scienceQuestions
+            QuizCategory.GENERAL_KNOWLEDGE -> DataSource.gkQuestions
+            QuizCategory.ANDROID -> DataSource.androidQuestions
+        }
+        questionList = if(shuffled){
+            list.shuffled()
+        }else{
+            list
+        }
+        setupListState()
+    }
+
+    private fun setupListState() {
+        Log.d(LOG_TAG,"$totalQuestions")
+        totalQuestions = questionList.size
+        totalMarks = EACH_CORRECT_MARK * totalQuestions
+        _questionCounter.value = 1
+        _question.value = questionList[_questionCounter.value!!.minus(1)]
+        Log.d(LOG_TAG,"$totalQuestions")
     }
 
     companion object {
