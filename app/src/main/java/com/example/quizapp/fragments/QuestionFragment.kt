@@ -1,10 +1,11 @@
 package com.example.quizapp.fragments
 
 import android.os.Bundle
-import android.util.Log
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -12,7 +13,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.quizapp.R
 import com.example.quizapp.databinding.FragmentQuestionBinding
-import com.example.quizapp.model.LOG_TAG
 import com.example.quizapp.model.QuizViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -21,6 +21,7 @@ class QuestionFragment : Fragment() {
     private var _binding: FragmentQuestionBinding? = null
     private val binding get() = _binding!!
     private var buttonState = NEXT_BUTTON_STATE
+    private lateinit var countDownTimer: CountDownTimer
 
     private val sharedViewModel: QuizViewModel by activityViewModels()
     override fun onCreateView(
@@ -28,7 +29,8 @@ class QuestionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,true){
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, true) {
+            countDownTimer.cancel()
             sharedViewModel.resetQuiz()
             findNavController().navigate(R.id.action_questionFragment_to_startFragment)
         }
@@ -50,10 +52,28 @@ class QuestionFragment : Fragment() {
                 buttonState = SUBMIT_BUTTON_STATE
             }
         }
+        countDownTimer = object : CountDownTimer(15 * 1000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                binding.timer.text = String.format(
+                    getString(R.string.timeout_second_text),
+                    millisUntilFinished / 1000
+                )
+            }
+
+            override fun onFinish() {
+                Toast.makeText(binding.timer.context, "Timeout!!!", Toast.LENGTH_SHORT)
+                    .show()
+                sharedViewModel.submitUnanswered()
+                performClick()
+            }
+        }.start()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // TODO: I can cancel the timer here because either way (question to result | question to start) we're cancelling it (because binding becomes null
+        // TODO: so textview is not present for onTick() ) so it would be better if i cancel it in here? and if I do what about the timer state after recreation.
+        // TODO: Does cancelling it here changes that?
         _binding = null
     }
 
@@ -61,12 +81,18 @@ class QuestionFragment : Fragment() {
         if (binding.optionRadioGroup.checkedRadioButtonId == -1) {
             showNoOptionSelectedSnackBar()
         } else {
-            if (buttonState == SUBMIT_BUTTON_STATE) {
-                sharedViewModel.calculateResult()
-                goToResultScreen()
-            } else {
-                nextQuestion()
-            }
+            sharedViewModel.submitAnswer(sharedViewModel.currentOption)
+            performClick()
+        }
+    }
+
+    private fun performClick() {
+        if (buttonState == SUBMIT_BUTTON_STATE) {
+            countDownTimer.cancel()
+            sharedViewModel.calculateResult()
+            goToResultScreen()
+        } else {
+            nextQuestion()
         }
     }
 
@@ -86,6 +112,7 @@ class QuestionFragment : Fragment() {
     private fun nextQuestion() {
         binding.optionRadioGroup.clearCheck()
         sharedViewModel.nextQuestion()
+        countDownTimer.start()
     }
 
     companion object {

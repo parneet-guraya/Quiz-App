@@ -7,7 +7,7 @@
     <string name="question_count">Count: %d of %d</string>
     <string name="question_score">You guessed: %d out of %d questions correct!</string>
     <string name="score">Score: %d Of %d</string>
-    <string name="next_question_button_text">Next Question</string>
+    <string name="submit_question_button_text">Submit Answer</string>
     <string name="restart_quiz_button_text">Restart Quiz</string>
     <string name="start_quiz_button_text">Start Quiz</string>
     <string name="no_options_selected_message">Please Select an option!!</string>
@@ -17,5 +17,6 @@
     <string name="science_category_text">Science</string>
     <string name="gk_category_text">General Knowledge</string>
     <string name="android_category_text">Android</string>
+    <string name="timeout_second_text">%d secs</string>
 
 </resources>

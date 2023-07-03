@@ -9,6 +9,7 @@
         <variable
             name="viewModel"
             type="com.example.quizapp.model.QuizViewModel" />
+
         <variable
             name="fragment"
             type="com.example.quizapp.fragments.QuestionFragment" />
@@ -34,6 +35,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/question_count" />
+
+            <TextView
+                android:id="@+id/timer"
+                style="@style/TextAppearance.Material3.TitleLarge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/timeout_second_text" />
 
             <TextView
                 android:id="@+id/question_text_view"
@@ -66,32 +76,32 @@
                     android:id="@+id/option_1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:onClick="@{() -> viewModel.set_currentOption(viewModel.question.options.option1)}"
                     android:text="@{viewModel.question.options.option1}"
-                    android:onClick="@{() -> viewModel.submitAnswer(viewModel.question.options.option1)}"
                     tools:text="Option 1" />
 
                 <RadioButton
                     android:id="@+id/option_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:onClick="@{() -> viewModel.set_currentOption(viewModel.question.options.option2)}"
                     android:text="@{viewModel.question.options.option2}"
-                    android:onClick="@{() -> viewModel.submitAnswer(viewModel.question.options.option2)}"
                     tools:text="Option 2" />
 
                 <RadioButton
                     android:id="@+id/option_3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:onClick="@{() -> viewModel.set_currentOption(viewModel.question.options.option3)}"
                     android:text="@{viewModel.question.options.option3}"
-                    android:onClick="@{() -> viewModel.submitAnswer(viewModel.question.options.option3)}"
                     tools:text="Option 3" />
 
                 <RadioButton
                     android:id="@+id/option_4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:onClick="@{() -> viewModel.set_currentOption(viewModel.question.options.option4)}"
                     android:text="@{viewModel.question.options.option4}"
-                    android:onClick="@{() -> viewModel.submitAnswer(viewModel.question.options.option4)}"
                     tools:text="Option 4" />
 
             </RadioGroup>
@@ -109,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:onClick="@{() -> fragment.buttonClick()}"
-                android:text="@string/next_question_button_text"
+                android:text="@string/submit_question_button_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/option_button_divider" />

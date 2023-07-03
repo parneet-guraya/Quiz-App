@@ -23,6 +23,16 @@ class QuizViewModel : ViewModel() {
     var totalQuestions: Int = 0
     var totalMarks: Int = 0
 
+    /*TODO: Here when the value is set it's never nullified because it is only being
+       overwritten and since without any option chosen we cannot submit the answer
+         which will prevent from submitting previous question value.
+         So, option needed to be chosen if we want to submit answer which anyways overwrite the value
+         hence we get latest value always. So, currently we're not resetting it anywhere.
+         Look into if we ever need it.*/
+
+    var _currentOption: String? = null
+    val currentOption get() = _currentOption!!
+
     private var _correctAnswers = MutableLiveData<Int>()
     val correctAnswers: LiveData<Int> = _correctAnswers
 
@@ -43,13 +53,25 @@ class QuizViewModel : ViewModel() {
         storeAnswer(isCorrect)
     }
 
+    fun submitUnanswered() {
+        storeAnswer(UNANSWERED)
+    }
+
     private fun storeAnswer(isCorrect: String) {
         resultList.add(Result(isCorrect))
     }
 
     // TODO: why it give 0 when using simple instance properties instead of livedata
     fun calculateResult() {
+//        Log.d(LOG_TAG, "Result List size:${resultList.size}")
+//        resultList.forEachIndexed { index, result ->
+//            Log.d(LOG_TAG, "Result[$index]:${result.isCorrect}")
+//            if (result.isCorrect == CORRECT) {
+//                _correctAnswers.value = correctAnswers.value!!.inc()
+//            }
+//        }
         for (result: Result in resultList) {
+            Log.d(LOG_TAG, "Result: ")
             if (result.isCorrect == CORRECT) {
                 _correctAnswers.value = correctAnswers.value!!.inc()
             }
@@ -102,6 +124,7 @@ class QuizViewModel : ViewModel() {
     companion object {
         private const val CORRECT = "CORRECT"
         private const val INCORRECT = "INCORRECT"
+        private const val UNANSWERED = "UNANSWERED"
         const val EACH_CORRECT_MARK = 10
     }
 }
