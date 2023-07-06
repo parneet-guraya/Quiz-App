@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Quiz App</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="sample_question">What are you doing? Choose from one of the options</string>
 
     <string name="question_count">Count: %d of %d</string>
@@ -18,5 +17,8 @@
     <string name="gk_category_text">General Knowledge</string>
     <string name="android_category_text">Android</string>
     <string name="timeout_second_text">%d secs</string>
+
+    <string name="history_fragment_text">Hello History fragment</string>
+    <string name="profile_fragment_text">Hello Profile fragment</string>
 
 </resources>
