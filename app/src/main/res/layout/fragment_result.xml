@@ -6,7 +6,7 @@
     <data>
         <variable
             name="fragment"
-            type="com.example.quizapp.fragments.ResultFragment" />
+            type="com.example.quizapp.fragments.quiz.ResultFragment" />
 
         <variable
             name="viewModel"
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/sides_margin"
-        tools:context=".fragments.ResultFragment">
+        tools:context=".fragments.quiz.ResultFragment">
 
         <TextView
             android:id="@+id/question_score"

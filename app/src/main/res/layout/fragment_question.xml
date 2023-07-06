@@ -12,13 +12,13 @@
 
         <variable
             name="fragment"
-            type="com.example.quizapp.fragments.QuestionFragment" />
+            type="com.example.quizapp.fragments.quiz.QuestionFragment" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.QuestionFragment">
+        tools:context=".fragments.quiz.QuestionFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

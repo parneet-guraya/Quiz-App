@@ -9,13 +9,13 @@
 
         <variable
             name="fragment"
-            type="com.example.quizapp.fragments.StartFragment" />
+            type="com.example.quizapp.fragments.quiz.StartFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.StartFragment">
+        tools:context=".fragments.quiz.StartFragment">
 
 
         <Button

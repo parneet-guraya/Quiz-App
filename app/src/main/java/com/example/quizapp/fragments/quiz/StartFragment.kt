@@ -1,4 +1,4 @@
-package com.example.quizapp.fragments
+package com.example.quizapp.fragments.quiz
 
 import android.os.Bundle
 import android.util.Log
