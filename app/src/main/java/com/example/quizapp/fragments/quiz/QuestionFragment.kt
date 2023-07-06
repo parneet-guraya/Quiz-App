@@ -30,7 +30,6 @@ class QuestionFragment : Fragment() {
     ): View {
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, true) {
-            countDownTimer.cancel()
             sharedViewModel.resetQuiz()
             findNavController().navigate(R.id.action_questionFragment_to_startFragment)
         }
@@ -71,9 +70,7 @@ class QuestionFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // TODO: I can cancel the timer here because either way (question to result | question to start) we're cancelling it (because binding becomes null
-        // TODO: so textview is not present for onTick() ) so it would be better if i cancel it in here? and if I do what about the timer state after recreation.
-        // TODO: Does cancelling it here changes that?
+        countDownTimer.cancel()
         _binding = null
     }
 
@@ -88,7 +85,6 @@ class QuestionFragment : Fragment() {
 
     private fun performClick() {
         if (buttonState == SUBMIT_BUTTON_STATE) {
-            countDownTimer.cancel()
             sharedViewModel.calculateResult()
             goToResultScreen()
         } else {
