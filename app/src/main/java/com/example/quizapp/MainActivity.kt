@@ -1,6 +1,7 @@
 package com.example.quizapp
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -18,5 +19,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavView.setupWithNavController(navController)
 
+        navController.addOnDestinationChangedListener{_,destination,_ ->
+            if(destination.id == R.id.startFragment || destination.id == R.id.history || destination.id == R.id.profile){
+                binding.bottomNavView.visibility = View.VISIBLE
+            }else{
+                binding.bottomNavView.visibility = View.INVISIBLE
+            }
+        }
     }
 }
